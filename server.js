@@ -1,60 +1,38 @@
-import fs from "node:fs/promises";
 import express from "express";
+import { takeScreenshot } from "./utils/takeScreenshot.mjs";
+import { collectStreamData } from "./utils/collectStreamData.mjs";
 
-// Constants
-const isProduction = process.env.NODE_ENV === "production";
-const port = process.env.PORT || 5173;
-const base = process.env.BASE || "/";
-
-// Cached production assets
-const ssrManifest = isProduction
-  ? await fs.readFile("./dist/client/.vite/ssr-manifest.json", "utf-8")
-  : undefined;
-
-// Create http server
 const app = express();
 
-// Add Vite or respective production middlewares
-let vite;
-if (!isProduction) {
-  const { createServer } = await import("vite");
-  vite = await createServer({
-    server: { middlewareMode: true },
-    appType: "custom",
-    base,
-  });
-  app.use(vite.middlewares);
-} else {
-  const compression = (await import("compression")).default;
-  const sirv = (await import("sirv")).default;
-  app.use(compression());
-  app.use(base, sirv("./dist/client", { extensions: [] }));
-}
+const { createServer } = await import("vite");
+const vite = await createServer({
+  server: { middlewareMode: true },
+  appType: "custom",
+  base: "/",
+});
+app.use(vite.middlewares);
 
-// Serve HTML
 app.use("*", async (req, res) => {
   try {
-    const url = req.originalUrl.replace(base, "");
+    const url = req.originalUrl.replace("/", "");
 
-    let render;
-    if (!isProduction) {
-      // Always read fresh template in development
-      render = (await vite.ssrLoadModule("/src/render.jsx")).render;
-    }
+    const render = (await vite.ssrLoadModule("/src/render.jsx")).render;
+    const stream = await render(url);
+    const htmlContent = await collectStreamData(stream);
 
-    // Use render to obtain a stream
-    const stream = await render(url, ssrManifest);
+    console.log("htmlContent", htmlContent);
 
-    res.status(200).set({ "Content-Type": "text/html" });
-    stream.pipe(res);
+    // Take a screenshot and save it
+    const screenshotPath = await takeScreenshot(htmlContent);
+
+    res.status(200).send(`Screenshot taken and saved at ${screenshotPath}`);
   } catch (e) {
-    vite?.ssrFixStacktrace(e);
-    console.log(e.stack);
+    console.log(e);
     res.status(500).end(e.stack);
   }
 });
 
 // Start http server
-app.listen(port, () => {
-  console.log(`Server started at http://localhost:${port}`);
+app.listen(3000, () => {
+  console.log(`Server started at http://localhost:3000`);
 });
