@@ -1,10 +1,11 @@
-import { useState } from "react";
-import "./App.css";
-
 function App() {
-  const [count, setCount] = useState(0);
-
-  return <>Snapshots </>;
+  return (
+    <>
+      Snapshots Test
+      <div>fe</div>
+      <button>fwe</button>
+    </>
+  );
 }
 
 export default App;
