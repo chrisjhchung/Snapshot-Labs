@@ -1,0 +1,29 @@
+@font-face {
+  font-family: "Inter";
+  src: url("assets/Inter-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  background: #212121;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Inter", sans-serif;
+}
+
+.container {
+  display: flex;
+  width: 500px;
+  height: 500px;
+  border-radius: 8px;
+  justify-content: center;
+  align-items: center;
+  background: #0d0d0d;
+  flex-direction: column;
+  padding: 24px;
+  p {
+    color: #f2f2f2;
+  }
+}
