@@ -32,20 +32,20 @@ app.use("*", async (req, res) => {
       const startTime = Date.now();
 
       // Take a screenshot and save it
-      const screenshotPath = await takeScreenshot(htmlContent);
+      await takeScreenshot(htmlContent);
 
       // End time
       const endTime = Date.now();
       const duration = endTime - startTime;
 
       console.log(
-        `Screenshot taken and saved at ${screenshotPath}.\nTime taken: ${duration} ms\n`
+        `Screenshot taken and saved at outputs/*.\nTime taken: ${duration} ms\n`
       );
 
       res
         .status(200)
         .send(
-          `Screenshot taken and saved at ${screenshotPath}.\nTime taken: ${duration} ms\n`
+          `Screenshot taken and saved at outputs/*.\nTime taken: ${duration} ms\n`
         );
     });
 

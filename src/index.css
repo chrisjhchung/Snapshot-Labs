@@ -6,10 +6,7 @@
 }
 
 body {
-  background: #212121;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  margin: 0;
   font-family: "Inter", sans-serif;
 }
 
@@ -22,7 +19,6 @@ body {
   align-items: center;
   background: #0d0d0d;
   flex-direction: column;
-  padding: 24px;
   p {
     color: #f2f2f2;
   }
