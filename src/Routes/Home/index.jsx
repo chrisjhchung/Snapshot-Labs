@@ -155,6 +155,7 @@ const Home = () => {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
+              border: "1px solid rgb(39, 39, 42)",
             }}
           >
             Example goes here
