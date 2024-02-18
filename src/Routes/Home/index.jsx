@@ -9,7 +9,7 @@ const Home = () => {
   const generateImages = async () => {
     console.log("clicked");
     const response = await fetch("http://localhost:3000/render", {
-      method: "POST", // Use POST method
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
@@ -20,7 +20,7 @@ const Home = () => {
     });
 
     const data = await response.json();
-    console.log(data); // Log the response or handle it as needed
+    console.log(data);
   };
 
   return (
@@ -48,7 +48,7 @@ const Home = () => {
         <div className={"containerTop"}>
           <div className={"optionForm"}>
             <label style={{ display: "flex", flexDirection: "column" }}>
-              <span> Images to generate (n= 1..100)</span>
+              <span> Images to generate (n= 1..100):</span>
               <input
                 type="number"
                 min="1"
@@ -59,7 +59,7 @@ const Home = () => {
               />
             </label>
             <label style={{ display: "flex", flexDirection: "column" }}>
-              <span> Choose strategy</span>
+              <span> Choose strategy:</span>
               <select onChange={(e) => setStrategy(e.target.value)}>
                 <option value="css-injection">CSS Injection</option>
                 <option disabled value="satori">
@@ -141,6 +141,15 @@ const Home = () => {
               scalability, capable of generating over 100 images simultaneously,
               catering to developers needing effective screenshot functionality
               in their web projects.
+            </p>
+            <p
+              style={{
+                margin: 0,
+              }}
+            >
+              The example image has been chosen since it requires a fair amount
+              of styling, javascript, and context about its position. The goal
+              of this lab is to screenshot complex (non-static) pages.
             </p>
             <i>The SPA that should be outputted is displayed on the right</i>
           </div>

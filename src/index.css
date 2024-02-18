@@ -35,6 +35,7 @@ label {
 label > span {
   font-size: 14px;
   color: white;
+  margin-bottom: 0.25rem;
 }
 
 input {
