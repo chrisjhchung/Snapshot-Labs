@@ -2,6 +2,7 @@ import puppeteer from "puppeteer";
 import sharp from "sharp";
 
 export async function takeScreenshot(html) {
+  const initialMemoryUsage = process.memoryUsage();
   const browser = await puppeteer.launch({
     headless: true,
     args: [
@@ -60,9 +61,22 @@ export async function takeScreenshot(html) {
   }
 
   await Promise.all(tasks);
+
+  const finalMemoryUsage = process.memoryUsage();
+  const memoryPercentageChange =
+    ((finalMemoryUsage.heapUsed - initialMemoryUsage.heapUsed) /
+      initialMemoryUsage.heapUsed) *
+    100;
+
   // End time
   const duration = endTime - startTime;
   console.log("\nCreating 100 images...");
   console.log("Duration (Excluding pupeeter cold start): ", duration);
-  return null;
+  console.log("Memory Usage Increase (bytes): ", memoryPercentageChange);
+
+  return {
+    number: 100,
+    duration: duration,
+    memory: memoryPercentageChange,
+  };
 }

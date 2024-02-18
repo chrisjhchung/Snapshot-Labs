@@ -1,28 +1,8 @@
 import React, { useState } from "react";
 import "../../index.css";
+import Render from "../Render";
 
 const Home = () => {
-  // State hooks for form inputs
-  const [imageCount, setImageCount] = useState(100);
-  const [strategy, setStrategy] = useState("css-injection");
-
-  const generateImages = async () => {
-    console.log("clicked");
-    const response = await fetch("http://localhost:3000/render", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        strategy: strategy,
-        count: imageCount,
-      }),
-    });
-
-    const data = await response.json();
-    console.log(data);
-  };
-
   return (
     <div
       style={{
@@ -49,18 +29,11 @@ const Home = () => {
           <div className={"optionForm"}>
             <label style={{ display: "flex", flexDirection: "column" }}>
               <span> Images to generate (n= 1..100):</span>
-              <input
-                type="number"
-                min="1"
-                max="100"
-                placeholder="100"
-                value={imageCount}
-                onChange={(e) => setImageCount(e.target.value)}
-              />
+              <input type="number" min="1" max="100" placeholder="100" />
             </label>
             <label style={{ display: "flex", flexDirection: "column" }}>
               <span> Choose strategy:</span>
-              <select onChange={(e) => setStrategy(e.target.value)}>
+              <select>
                 <option value="css-injection">CSS Injection</option>
                 <option disabled value="satori">
                   Satori (Not yet implemented)
@@ -73,14 +46,7 @@ const Home = () => {
                 </option>
               </select>
             </label>
-            <button
-              onClick={() => {
-                console.log("hello");
-                generateImages();
-              }}
-            >
-              Generate Image
-            </button>
+            <button className="generate-images">Generate Image(s)</button>
           </div>
 
           <div className="results">
@@ -96,12 +62,15 @@ const Home = () => {
                 Results
               </p>
               <p
+                className="number-images"
                 style={{ margin: 0, fontSize: "14px" }}
               >{`Images Generated: ${"N/A"}`}</p>
               <p
+                className="time"
                 style={{ margin: 0, fontSize: "14px" }}
               >{`Time taken (ms): ${"N/A"}`}</p>
               <p
+                className="memory"
                 style={{ margin: 0, fontSize: "14px" }}
               >{`Memory Usage (%): ${"N/A"}`}</p>
             </div>
@@ -167,7 +136,7 @@ const Home = () => {
               border: "1px solid rgb(39, 39, 42)",
             }}
           >
-            Example goes here
+            <Render height={400} width={400} numberOfImages={1} />
           </div>
         </div>
       </div>
