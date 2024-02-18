@@ -34,6 +34,7 @@ label {
 
 label > span {
   font-size: 14px;
+  color: white;
 }
 
 input {
@@ -64,13 +65,34 @@ button {
   font-size: 14px;
   margin-top: 1rem;
 }
+h1 {
+  margin: 0;
+  color: white;
+}
 
-.optionForm {
+.containerTop {
   border-top: 1px solid rgb(39, 39, 42);
+  border-bottom: 1px solid rgb(39, 39, 42);
   width: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 8px;
   margin-top: 2rem;
   padding-top: 2rem;
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  justify-content: space-between;
+}
+
+.optionForm {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.results {
+  width: 400px;
+  border: 1px solid rgb(39, 39, 42);
+  border-radius: 8px;
+  display: flex;
 }
