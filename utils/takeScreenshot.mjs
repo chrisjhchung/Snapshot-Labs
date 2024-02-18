@@ -32,13 +32,14 @@ export async function takeScreenshot(html) {
         heightDiv.appendChild(paragraph);
       });
     }
-    calcHeight("container");
+    calcHeight("render-container");
   });
 
   const outputPath = `./output/fullpage-snapshot.png`;
   await page.screenshot({
     path: outputPath,
     fullPage: true,
+    optimizeForSpeed: true,
   });
   const endTime = Date.now();
 
