@@ -18,7 +18,7 @@ export async function takeScreenshot(html) {
   const startTime = Date.now();
 
   await page.setContent(html, { waitUntil: "domcontentloaded" });
-  await page.addStyleTag({ path: "./src/index.css" });
+  await page.addStyleTag({ path: "./src/Routes/Render/index.css" });
 
   await page.evaluate(() => {
     function calcHeight(containerClassName) {

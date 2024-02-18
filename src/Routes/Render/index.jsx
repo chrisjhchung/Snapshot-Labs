@@ -1,6 +1,6 @@
 import React from "react";
 
-function App() {
+function Render() {
   const containers = [...Array(100)].map((_, index) => (
     <div key={index} className="container">
       <p>Container {index + 1}</p>
@@ -16,4 +16,4 @@ function App() {
   );
 }
 
-export default App;
+export default Render;

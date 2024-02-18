@@ -1,6 +1,7 @@
 import express from "express";
 import { takeScreenshot } from "./utils/takeScreenshot.mjs";
 import { PassThrough } from "stream";
+import fs from "node:fs/promises";
 
 const app = express();
 
@@ -27,34 +28,29 @@ app.use("*", async (req, res) => {
 
     stream.pipe(passThrough);
 
-    passThrough.on("end", async () => {
-      // Start time
-      const startTime = Date.now();
-
-      // Take a screenshot and save it
-      await takeScreenshot(htmlContent);
-
-      // End time
-      const endTime = Date.now();
-      const duration = endTime - startTime;
-
-      console.log(
-        `Screenshot taken and saved at outputs/*.\nTime taken: ${duration} ms\n`
-      );
-
-      res
-        .status(200)
-        .send(
-          `Screenshot taken and saved at outputs/*.\nTime taken: ${duration} ms\n`
-        );
-    });
-
+    // Properly place error handling for the stream
     passThrough.on("error", (error) => {
       console.error("Stream error:", error);
       res.status(500).send("Error processing request");
     });
+
+    passThrough.on("end", async () => {
+      if (url === "render") {
+        // Process for /render URL
+        await takeScreenshot(htmlContent);
+        // Response after taking a screenshot
+        res.status(200).send("Screenshot taken and saved.");
+      } else {
+        // Process for rendering page to screen
+        let template = await fs.readFile("./index.html", "utf-8");
+        template = await vite.transformIndexHtml(url, template);
+        // Directly inject htmlContent into the template
+        const html = template.replace(`<!--app-html-->`, htmlContent);
+        res.status(200).set({ "Content-Type": "text/html" }).send(html);
+      }
+    });
   } catch (e) {
-    console.log(e);
+    console.error(e);
     res.status(500).end(e.stack);
   }
 });
